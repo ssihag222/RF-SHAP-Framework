@@ -1,105 +1,106 @@
-# RF-SHAP-Framework
-This repository contains the Google Colab notebook and dataset for the HepatoXAI-RF framework for Hepatitis B diagnosis. It includes preprocessing, SMOTE balancing, SHAP-based feature selection, Random Forest modeling, calibration, robustness analysis, and explainable AI for reproducible clinical research.
+# HepatoXAI-RF: Explainable Hepatitis B Detection Framework
 
-# HepatoXAI-RF: Hepatitis B Prediction Framework
+This repository contains the analysis notebook and supporting dataset for **HepatoXAI-RF**, an explainable Random Forest framework for Hepatitis B detection using clinical biomarkers and Shapley Additive Explanations (SHAP).
 
-This repository contains the Google Colab notebook and dataset for the HepatoXAI-RF framework, an interpretable machine learning pipeline for Hepatitis B diagnosis using a real-world clinical dataset. The project focuses on building a reliable and explainable diagnostic framework by combining careful preprocessing, feature selection, Random Forest modeling, calibration analysis, robustness evaluation, and SHAP-based explainability.
+The revised workflow includes fold-wise preprocessing and SMOTE, SHAP-guided feature selection, comparable tuning of baseline classifiers, validation-based threshold selection, multi-seed evaluation, calibration assessment, and patient-level explanations.
 
 ## Repository Contents
 
-- `RF_SHAP_Framework.ipynb` — Main Google Colab notebook containing the full implementation
-- `HBV_Dataset.xlsx` — Clinical dataset used for model development and evaluation
+- `HepatoXAI_RF_FINAL_Revised_Analysis.ipynb` — Final revised analysis used for the manuscript
+- `RF_SHAP_Framework.ipynb` — Original analysis notebook retained for reference
+- `HBV_Dataset.xlsx` — De-identified clinical dataset used in the study
 
-## Project Overview
-
-The notebook presents a complete end-to-end workflow for Hepatitis B prediction. It includes:
-
-- Dataset loading and inspection
-- Missing value handling
-- HBV DNA value parsing and cleaning
-- Categorical encoding
-- Box-Cox transformation for skewed numerical variables
-- Standardization of numerical features
-- Train-validation-test splitting
-- SMOTE-based class balancing
-- SHAP-based feature ranking
-- Top-k feature selection
-- Random Forest hyperparameter tuning
-- Threshold optimization
-- Final model training and evaluation
-- Confusion matrix generation
-- Calibration curve analysis
-- Multi-seed robustness testing
-- SHAP global and local explainability
-- Baseline model comparison
+> The final revised results reported in the manuscript were generated using `HepatoXAI_RF_FINAL_Revised_Analysis.ipynb`. The original notebook is retained only to document the development history.
 
 ## Dataset Information
 
-The dataset is an Excel file containing 216 clinical records with demographic, symptomatic, and biochemical features relevant to Hepatitis B prediction.
+The dataset contains 216 de-identified clinical records collected from hospital records. It includes demographic, symptomatic, and biochemical variables relevant to Hepatitis B screening.
 
-### Main Features
+### Recorded variables
+
 - Age
 - Gender
 - Jaundice
-- DarkUrine
-- AbdominalPain
-- VomitingFrequency
-- LossofAppetite
-- HBVDNA
-- ALTLevel
-- ASTLevel
+- Dark Urine
+- Abdominal Pain
+- Vomiting Frequency
+- Loss of Appetite
+- HBV DNA
+- ALT/SGPT
+- AST/SGOT
 - Bilirubin
 - Albumin
-- Status
+- HBV diagnosis status
 
-### Target Variable
-- `Status`  
-  - `Positive`
-  - `Negative`
+The target variable is the physician-recorded HBV diagnosis status:
 
-## Methodology
+- `Positive`
+- `Negative`
 
-The implemented framework follows these major stages:
+No direct personal identifiers are included in the dataset.
 
-1. **Data Inspection and Cleaning**  
-   The dataset is loaded, missing values are identified, and inconsistent entries such as HBV DNA textual values are cleaned.
+## Revised Analysis Workflow
 
-2. **Preprocessing**  
-   Numerical features are transformed and standardized, while categorical variables are encoded into model-ready form.
+The final notebook implements the following stages:
 
-3. **Imbalance Handling**  
-   SMOTE is applied on the training data to address class imbalance.
+1. Data loading and inspection
+2. Missing-value handling
+3. Parsing and validation of HBV DNA values
+4. Encoding of categorical variables
+5. Transformation of skewed numerical variables
+6. Standardization of numerical variables
+7. Outer stratified train–test partitioning
+8. Development-training and validation partitioning
+9. Fold-wise preprocessing and SMOTE during model tuning
+10. SHAP-based feature ranking and top-k feature selection
+11. Comparable hyperparameter tuning of the proposed and baseline models
+12. Validation-based decision-threshold selection
+13. Evaluation on the untouched outer test set
+14. Multi-seed performance evaluation
+15. Sensitivity analysis using:
+    - the complete seven-feature model;
+    - HBV DNA alone; and
+    - the selected features excluding HBV DNA
+16. Global and patient-level SHAP analysis
+17. Confusion-matrix and calibration assessment
 
-4. **Feature Selection**  
-   SHAP values from a preliminary Random Forest model are used to rank features and select the most informative subset.
+## Evaluated Models
 
-5. **Model Development**  
-   A Random Forest classifier is tuned using randomized hyperparameter search.
+The following classifiers are evaluated using comparable tuning procedures:
 
-6. **Threshold Optimization**  
-   The classification threshold is optimized on the validation set rather than relying only on the default 0.5 cutoff.
+- HepatoXAI-RF
+- Random Forest
+- Logistic Regression
+- Decision Tree
+- Linear Support Vector Machine
+- Gaussian Naive Bayes
+- K-Nearest Neighbors
+- Gradient Boosting
 
-7. **Final Evaluation**  
-   The selected model is retrained on the full training data and evaluated on the untouched test set.
+The revised analysis emphasizes clinically relevant measures including sensitivity, specificity, ROC-AUC, and Brier score, in addition to accuracy, precision, and F1-score.
 
-8. **Explainability and Reliability**  
-   The notebook includes confusion matrix analysis, calibration curves, SHAP explainability, and multi-seed robustness testing.
+## Selected Features
 
-## Requirements
+The final seven-feature configuration contains:
 
-The notebook is designed for Google Colab and uses Python libraries such as:
+- HBV DNA
+- ALT level
+- AST level
+- Loss of Appetite
+- Abdominal Pain
+- Age
+- Vomiting Frequency
 
-- numpy
-- pandas
-- matplotlib
-- seaborn
-- scipy
-- scikit-learn
-- imbalanced-learn
-- shap
-- openpyxl
+## Running the Notebook
 
-Install the required packages in Colab using:
+The notebook is designed for Google Colab.
+
+1. Upload the notebook to Google Colab or open it from GitHub.
+2. Upload or mount the dataset at the path specified in the data-loading cell.
+3. Run the cells sequentially from the beginning.
+4. Review the generated tables and figures in the output directory defined in the notebook.
+
+Install the principal dependencies with:
 
 ```python
 !pip install shap imbalanced-learn openpyxl
