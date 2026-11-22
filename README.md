@@ -104,3 +104,9 @@ Install the principal dependencies with:
 
 ```python
 !pip install shap imbalanced-learn openpyxl
+
+
+
+# HepatoXAI-RF: Explainable Hepatitis B Detection Framework
+
+[![DOI](https://zenodo.org/badge/1202625380.svg)](https://doi.org/10.5281/zenodo.24433241)
